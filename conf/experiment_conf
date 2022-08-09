@@ -1,0 +1,376 @@
+# Required. The URL address for each target.
+config.urls = ["https://akamai.test.com/", "https://fastly.test.com/"]
+
+# Required. The 'Host' header value for each target.
+config.host_headers = ["akamai.test.com", "fastly.test.com"]
+
+config.grammar = { 
+		'<start>': ['<sequence>'], 
+		'<sequence>': ['<headers-frame-base-1><data-frame-base-1>', '<headers-frame-base-1><data-frame-base-2><data-frame-base-1>', '<headers-frame-base-2><continuation-frame-base-1><data-frame-base-1>', '<headers-frame-base-2><continuation-frame-base-1><data-frame-base-2><data-frame-base-1>', '<headers-frame-base-2><continuation-frame-base-2><continuation-frame-base-1><data-frame-base-1>', '<headers-frame-base-2><continuation-frame-base-2><continuation-frame-base-1><data-frame-base-2><data-frame-base-1>'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<headers-frame-base-1>': ['<headers-frame-base-1-header-block><headers-frame-base-1-flags><headers-frame-base-1-stream-id>'],
+
+		'<headers-frame-base-1-header-block>': ['<headers-frame-base-1-method-header><headers-frame-base-1-scheme-header><headers-frame-base-1-path-header><headers-frame-base-1-authority-header>'], 
+        '<headers-frame-base-1-flags>': ['EH'],
+		'<headers-frame-base-1-stream-id>': ['1'],
+
+		'<headers-frame-base-1-method-header>': ['<headers-frame-base-1-method-header-name><headers-frame-base-1-method-header-value>'],
+		'<headers-frame-base-1-method-header-name>': [':method'],
+		'<headers-frame-base-1-method-header-value>': ['POST'],
+
+		'<headers-frame-base-1-scheme-header>': ['<headers-frame-base-1-scheme-header-name><headers-frame-base-1-scheme-header-value>'],
+		'<headers-frame-base-1-scheme-header-name>': [':scheme'],
+		'<headers-frame-base-1-scheme-header-value>': ['https'],
+
+		'<headers-frame-base-1-path-header>': ['<headers-frame-base-1-path-header-name><headers-frame-base-1-path-header-value>'],
+		'<headers-frame-base-1-path-header-name>': [':path'],
+		'<headers-frame-base-1-path-header-value>': ['/reqid=_REQID_'],  
+
+        '<headers-frame-base-1-authority-header>': ['<headers-frame-base-1-authority-header-name><headers-frame-base-1-authority-header-value>'],
+        '<headers-frame-base-1-authority-header-name>': [':authority'],
+        '<headers-frame-base-1-authority-header-value>': ['_HOST_'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<headers-frame-base-2>': ['<headers-frame-base-2-header-block><headers-frame-base-2-flags><headers-frame-base-2-stream-id>'],
+
+		'<headers-frame-base-2-header-block>': ['<headers-frame-base-2-method-header><headers-frame-base-2-scheme-header><headers-frame-base-2-path-header><headers-frame-base-2-authority-header>'], 
+        '<headers-frame-base-2-flags>': ['NONE'],
+		'<headers-frame-base-2-stream-id>': ['1'],
+
+		'<headers-frame-base-2-method-header>': ['<headers-frame-base-2-method-header-name><headers-frame-base-2-method-header-value>'],
+		'<headers-frame-base-2-method-header-name>': [':method'],
+		'<headers-frame-base-2-method-header-value>': ['POST'],
+
+		'<headers-frame-base-2-scheme-header>': ['<headers-frame-base-2-scheme-header-name><headers-frame-base-2-scheme-header-value>'],
+		'<headers-frame-base-2-scheme-header-name>': [':scheme'],
+		'<headers-frame-base-2-scheme-header-value>': ['https'],
+
+		'<headers-frame-base-2-path-header>': ['<headers-frame-base-2-path-header-name><headers-frame-base-2-path-header-value>'],
+		'<headers-frame-base-2-path-header-name>': [':path'],
+		'<headers-frame-base-2-path-header-value>': ['/reqid=_REQID_'],  
+
+        '<headers-frame-base-2-authority-header>': ['<headers-frame-base-2-authority-header-name><headers-frame-base-2-authority-header-value>'],
+        '<headers-frame-base-2-authority-header-name>': [':authority'],
+        '<headers-frame-base-2-authority-header-value>': ['_HOST_'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<continuation-frame-base-1>': ['<continuation-frame-base-1-header-block><continuation-frame-base-1-flags><continuation-frame-base-1-stream-id>'],
+
+        '<continuation-frame-base-1-header-block>': ['<continuation-frame-base-1-some-header>'],
+        '<continuation-frame-base-1-flags>': ['EH'],
+        '<continuation-frame-base-1-stream-id>': ['1'],
+
+		'<continuation-frame-base-1-some-header>': ['<continuation-frame-base-1-some-header-name><continuation-frame-base-1-some-header-value>'],
+		'<continuation-frame-base-1-some-header-name>': ['some-header'],
+		'<continuation-frame-base-1-some-header-value>': ['some-value'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<continuation-frame-base-2>': ['<continuation-frame-base-2-header-block><continuation-frame-base-2-flags><continuation-frame-base-2-stream-id>'],
+
+        '<continuation-frame-base-2-header-block>': ['<continuation-frame-base-2-some-other-header>'],
+        '<continuation-frame-base-2-flags>': ['NONE'],
+        '<continuation-frame-base-2-stream-id>': ['1'],
+
+		'<continuation-frame-base-2-some-other-header>': ['<continuation-frame-base-2-some-other-header-name><continuation-frame-base-2-some-other-header-value>'],
+		'<continuation-frame-base-2-some-other-header-name>': ['some-other-header'],
+		'<continuation-frame-base-2-some-other-header-value>': ['some-other-value'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<data-frame-base-1>': ['<data-frame-base-1-data><data-frame-base-1-flags><data-frame-base-1-stream-id>'],
+
+		'<data-frame-base-1-data>': ['5\r\nBBBBB\r\n0\r\n\r\n', '5\r\nBBBBB\r\n0\r\n\r\nBBBBB', '5\r\nBBBBB\r\n', '0\r\n\r\n'],
+        '<data-frame-base-1-flags>': ['ES'],
+		'<data-frame-base-1-stream-id>': ['1'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<data-frame-base-2>': ['<data-frame-base-2-data><data-frame-base-2-flags><data-frame-base-2-stream-id>'],
+
+		'<data-frame-base-2-data>': ['5\r\nBBBBB\r\n0\r\n\r\n', '5\r\nBBBBB\r\n0\r\n\r\nBBBBB', '5\r\nBBBBB\r\n', '0\r\n\r\n'],
+        '<data-frame-base-2-flags>': ['NONE'],
+		'<data-frame-base-2-stream-id>': ['1'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<headers-frame-pool-1>': ['<headers-frame-pool-1-header-block><headers-frame-pool-1-flags><headers-frame-pool-1-stream-id>'],
+
+		'<headers-frame-pool-1-header-block>': ['<headers-frame-pool-1-method-header><headers-frame-pool-1-scheme-header><headers-frame-pool-1-path-header><headers-frame-pool-1-authority-header><headers-frame-pool-1-body-length-header>'], 
+        '<headers-frame-pool-1-flags>': ['NONE', 'ES', 'EH', 'ES;EH',],
+		'<headers-frame-pool-1-stream-id>': ['1'],
+
+		'<headers-frame-pool-1-method-header>': ['<headers-frame-pool-1-method-header-name><headers-frame-pool-1-method-header-value>'],
+		'<headers-frame-pool-1-method-header-name>': [':method'],
+		'<headers-frame-pool-1-method-header-value>': ['(POST, opts(prob=0.75))', '(GET, opts(prob=0.13))', 'HEAD', 'OPTIONS', 'TRACE', 'PUT', 'DELETE', 'CONNECT'],
+
+		'<headers-frame-pool-1-scheme-header>': ['<headers-frame-pool-1-scheme-header-name><headers-frame-pool-1-scheme-header-value>'],
+		'<headers-frame-pool-1-scheme-header-name>': [':scheme'],
+		'<headers-frame-pool-1-scheme-header-value>': ['https'],
+
+		'<headers-frame-pool-1-path-header>': ['<headers-frame-pool-1-path-header-name><headers-frame-pool-1-path-header-value>'],
+		'<headers-frame-pool-1-path-header-name>': [':path'],
+		'<headers-frame-pool-1-path-header-value>': ['/reqid=_REQID_'],  
+
+        '<headers-frame-pool-1-authority-header>': ['<headers-frame-pool-1-authority-header-name><headers-frame-pool-1-authority-header-value>'],
+        '<headers-frame-pool-1-authority-header-name>': [':authority'],
+        '<headers-frame-pool-1-authority-header-value>': ['_HOST_'],
+
+        '<headers-frame-pool-1-body-length-header>': ['(<headers-frame-pool-1-content-len-header>, opts(prob=0.75))', '<headers-frame-pool-1-transfer-enc-header>'],
+
+		'<headers-frame-pool-1-content-len-header>': ['<headers-frame-pool-1-content-len-header-name><headers-frame-pool-1-content-len-header-value>'],
+		'<headers-frame-pool-1-content-len-header-name>': ['content-length'],
+		'<headers-frame-pool-1-content-len-header-value>': ['5', '10', '15', '20'],
+
+		'<headers-frame-pool-1-transfer-enc-header>': ['<headers-frame-pool-1-transfer-enc-header-name><headers-frame-pool-1-transfer-enc-header-value>'],
+		'<headers-frame-pool-1-transfer-enc-header-name>': ['transfer-encoding'],
+		'<headers-frame-pool-1-transfer-enc-header-value>': ['(chunked, opts(prob=0.75))', 'identity'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<continuation-frame-pool-1>': ['<continuation-frame-pool-1-header-block><continuation-frame-pool-1-flags><continuation-frame-pool-1-stream-id>'],
+
+        '<continuation-frame-pool-1-header-block>': ['(<continuation-frame-pool-1-body-length-header>, opts(prob=0.75))', '<continuation-frame-pool-1-method-header><continuation-frame-pool-1-body-length-header>'],
+        '<continuation-frame-pool-1-flags>': ['NONE', 'EH',],
+        '<continuation-frame-pool-1-stream-id>': ['1'],
+
+        '<continuation-frame-pool-1-body-length-header>': ['(<continuation-frame-pool-1-content-len-header>, opts(prob=0.75))', '<continuation-frame-pool-1-transfer-enc-header>'],
+
+		'<continuation-frame-pool-1-content-len-header>': ['<continuation-frame-pool-1-content-len-header-name><continuation-frame-pool-1-content-len-header-value>'],
+		'<continuation-frame-pool-1-content-len-header-name>': ['content-length'],
+		'<continuation-frame-pool-1-content-len-header-value>': ['5', '10', '15', '20'],
+
+		'<continuation-frame-pool-1-transfer-enc-header>': ['<continuation-frame-pool-1-transfer-enc-header-name><continuation-frame-pool-1-transfer-enc-header-value>'],
+		'<continuation-frame-pool-1-transfer-enc-header-name>': ['transfer-encoding'],
+		'<continuation-frame-pool-1-transfer-enc-header-value>': ['(chunked, opts(prob=0.75))', 'identity'],
+
+        '<continuation-frame-pool-1-method-header>': ['<continuation-frame-pool-1-method-header-name><continuation-frame-pool-1-method-header-value>'],
+        '<continuation-frame-pool-1-method-header-name>': [':method'],
+        '<continuation-frame-pool-1-method-header-value>': ['(POST, opts(prob=0.75))', '(GET, opts(prob=0.13))', 'HEAD', 'OPTIONS', 'TRACE', 'PUT', 'DELETE', 'CONNECT'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<data-frame-pool-1>': ['<data-frame-pool-1-data><data-frame-pool-1-flags><data-frame-pool-1-stream-id>'],
+
+		'<data-frame-pool-1-data>': ['5\r\nBBBBB\r\n0\r\n\r\n', '5\r\nBBBBB\r\n0\r\n\r\nBBBBB', '5\r\nBBBBB\r\n', '0\r\n\r\n'],
+        '<data-frame-pool-1-flags>': ['NONE', 'ES',],
+		'<data-frame-pool-1-stream-id>': ['1'],
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<padded-headers-frame-pool-1>': ['<padded-headers-frame-pool-1-header-block><padded-headers-frame-pool-1-flags><padded-headers-frame-pool-1-stream-id><padded-headers-frame-pool-1-padding>'],
+
+		'<padded-headers-frame-pool-1-header-block>': ['<padded-headers-frame-pool-1-method-header><padded-headers-frame-pool-1-scheme-header><padded-headers-frame-pool-1-path-header><padded-headers-frame-pool-1-authority-header><padded-headers-frame-pool-1-body-length-header>'], 
+        '<padded-headers-frame-pool-1-flags>': ['P', 'P;ES', 'P;EH', 'P;ES;EH',],
+		'<padded-headers-frame-pool-1-stream-id>': ['1'],
+		'<padded-headers-frame-pool-1-padding>': ['5\r\nBBBBB\r\n0\r\n\r\n', '5\r\nBBBBB\r\n0\r\n\r\nBBBBB', '5\r\nBBBBB\r\n', '0\r\n\r\n'],
+
+		'<padded-headers-frame-pool-1-method-header>': ['<padded-headers-frame-pool-1-method-header-name><padded-headers-frame-pool-1-method-header-value>'],
+		'<padded-headers-frame-pool-1-method-header-name>': [':method'],
+		'<padded-headers-frame-pool-1-method-header-value>': ['(POST, opts(prob=0.75))', '(GET, opts(prob=0.13))', 'HEAD', 'OPTIONS', 'TRACE', 'PUT', 'DELETE', 'CONNECT'],
+
+		'<padded-headers-frame-pool-1-scheme-header>': ['<padded-headers-frame-pool-1-scheme-header-name><padded-headers-frame-pool-1-scheme-header-value>'],
+		'<padded-headers-frame-pool-1-scheme-header-name>': [':scheme'],
+		'<padded-headers-frame-pool-1-scheme-header-value>': ['https'],
+
+		'<padded-headers-frame-pool-1-path-header>': ['<padded-headers-frame-pool-1-path-header-name><padded-headers-frame-pool-1-path-header-value>'],
+		'<padded-headers-frame-pool-1-path-header-name>': [':path'],
+		'<padded-headers-frame-pool-1-path-header-value>': ['/reqid=_REQID_'],  
+
+        '<padded-headers-frame-pool-1-authority-header>': ['<padded-headers-frame-pool-1-authority-header-name><padded-headers-frame-pool-1-authority-header-value>'],
+        '<padded-headers-frame-pool-1-authority-header-name>': [':authority'],
+        '<padded-headers-frame-pool-1-authority-header-value>': ['_HOST_'],
+
+        '<padded-headers-frame-pool-1-body-length-header>': ['(<padded-headers-frame-pool-1-content-len-header>, opts(prob=0.75))', '<padded-headers-frame-pool-1-transfer-enc-header>'],
+
+		'<padded-headers-frame-pool-1-content-len-header>': ['<padded-headers-frame-pool-1-content-len-header-name><padded-headers-frame-pool-1-content-len-header-value>'],
+		'<padded-headers-frame-pool-1-content-len-header-name>': ['content-length'],
+		'<padded-headers-frame-pool-1-content-len-header-value>': ['5', '10', '15', '20'],
+
+		'<padded-headers-frame-pool-1-transfer-enc-header>': ['<padded-headers-frame-pool-1-transfer-enc-header-name><padded-headers-frame-pool-1-transfer-enc-header-value>'],
+		'<padded-headers-frame-pool-1-transfer-enc-header-name>': ['transfer-encoding'],
+		'<padded-headers-frame-pool-1-transfer-enc-header-value>': ['(chunked, opts(prob=0.75))', 'identity'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<priority-headers-frame-pool-1>': ['<priority-headers-frame-pool-1-header-block><priority-headers-frame-pool-1-flags><priority-headers-frame-pool-1-stream-id><priority-headers-frame-pool-1-exclusive><priority-headers-frame-pool-1-dependency><priority-headers-frame-pool-1-weight>'],
+
+		'<priority-headers-frame-pool-1-header-block>': ['<priority-headers-frame-pool-1-method-header><priority-headers-frame-pool-1-scheme-header><priority-headers-frame-pool-1-path-header><priority-headers-frame-pool-1-authority-header><priority-headers-frame-pool-1-body-length-header>'], 
+        '<priority-headers-frame-pool-1-flags>': ['+', '+;ES', '+;EH', '+;ES;EH'],
+		'<priority-headers-frame-pool-1-stream-id>': ['1'],
+		'<priority-headers-frame-pool-1-exclusive>': ['0', '1'],
+		'<priority-headers-frame-pool-1-dependency>': ['(0, opts(prob=0.01))', '(-1, opts(prob=0.01))', '2', '3'],
+		'<priority-headers-frame-pool-1-weight>': ['(0, opts(prob=0.01))', '100'],
+
+		'<priority-headers-frame-pool-1-method-header>': ['<priority-headers-frame-pool-1-method-header-name><priority-headers-frame-pool-1-method-header-value>'],
+		'<priority-headers-frame-pool-1-method-header-name>': [':method'],
+		'<priority-headers-frame-pool-1-method-header-value>': ['(POST, opts(prob=0.75))', '(GET, opts(prob=0.13))', 'HEAD', 'OPTIONS', 'TRACE', 'PUT', 'DELETE', 'CONNECT'],
+
+		'<priority-headers-frame-pool-1-scheme-header>': ['<priority-headers-frame-pool-1-scheme-header-name><priority-headers-frame-pool-1-scheme-header-value>'],
+		'<priority-headers-frame-pool-1-scheme-header-name>': [':scheme'],
+		'<priority-headers-frame-pool-1-scheme-header-value>': ['https'],
+
+		'<priority-headers-frame-pool-1-path-header>': ['<priority-headers-frame-pool-1-path-header-name><priority-headers-frame-pool-1-path-header-value>'],
+		'<priority-headers-frame-pool-1-path-header-name>': [':path'],
+		'<priority-headers-frame-pool-1-path-header-value>': ['/reqid=_REQID_'],  
+
+        '<priority-headers-frame-pool-1-authority-header>': ['<priority-headers-frame-pool-1-authority-header-name><priority-headers-frame-pool-1-authority-header-value>'],
+        '<priority-headers-frame-pool-1-authority-header-name>': [':authority'],
+        '<priority-headers-frame-pool-1-authority-header-value>': ['_HOST_'],
+
+        '<priority-headers-frame-pool-1-body-length-header>': ['(<priority-headers-frame-pool-1-content-len-header>, opts(prob=0.75))', '<priority-headers-frame-pool-1-transfer-enc-header>'],
+
+		'<priority-headers-frame-pool-1-content-len-header>': ['<priority-headers-frame-pool-1-content-len-header-name><priority-headers-frame-pool-1-content-len-header-value>'],
+		'<priority-headers-frame-pool-1-content-len-header-name>': ['content-length'],
+		'<priority-headers-frame-pool-1-content-len-header-value>': ['5', '10', '15', '20'],
+
+		'<priority-headers-frame-pool-1-transfer-enc-header>': ['<priority-headers-frame-pool-1-transfer-enc-header-name><priority-headers-frame-pool-1-transfer-enc-header-value>'],
+		'<priority-headers-frame-pool-1-transfer-enc-header-name>': ['transfer-encoding'],
+		'<priority-headers-frame-pool-1-transfer-enc-header-value>': ['(chunked, opts(prob=0.75))', 'identity'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+		'<padded-data-frame-pool-1>': ['<padded-data-frame-pool-1-data><padded-data-frame-pool-1-flags><padded-data-frame-pool-1-stream-id><padded-data-frame-pool-1-padding>'],
+
+		'<padded-data-frame-pool-1-data>': ['5\r\nBBBBB\r\n0\r\n\r\n', '5\r\nBBBBB\r\n0\r\n\r\nBBBBB', '5\r\nBBBBB\r\n', '0\r\n\r\n'],
+        '<padded-data-frame-pool-1-flags>': ['P', 'P;ES'],
+		'<padded-data-frame-pool-1-stream-id>': ['1'],
+		'<padded-data-frame-pool-1-padding>': ['5\r\nBBBBB\r\n0\r\n\r\n', '5\r\nBBBBB\r\n0\r\n\r\nBBBBB', '5\r\nBBBBB\r\n', '0\r\n\r\n'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<settings-frame-pool-1>': ['<settings-frame-pool-1-settings><settings-frame-pool-1-flags><settings-frame-pool-1-stream-id>'],
+
+        '<settings-frame-pool-1-flags>': ['NONE', 'A',],
+        '<settings-frame-pool-1-stream-id>': ['0', '(1, opts(prob=0.01))'],
+        '<settings-frame-pool-1-settings>': ['<settings-frame-pool-1-headertablesize-setting><settings-frame-pool-1-enablepush-setting><settings-frame-pool-1-maxconcurrentstreams-setting><settings-frame-pool-1-initialwindowsize-setting><settings-frame-pool-1-maxframesize-setting><settings-frame-pool-1-maxheaderlistsize-setting>'],
+
+        '<settings-frame-pool-1-headertablesize-setting>': ['<settings-frame-pool-1-headertablesize-setting-id><settings-frame-pool-1-headertablesize-setting-value>'],
+        '<settings-frame-pool-1-headertablesize-setting-id>': ['1'],
+        '<settings-frame-pool-1-headertablesize-setting-value>': ['123456', '(0, opts(prob=0.01))'],
+
+        '<settings-frame-pool-1-enablepush-setting>': ['<settings-frame-pool-1-enablepush-setting-id><settings-frame-pool-1-enablepush-setting-value>'],
+        '<settings-frame-pool-1-enablepush-setting-id>': ['2'],
+        '<settings-frame-pool-1-enablepush-setting-value>': ['1', '(0, opts(prob=0.01))'],
+
+        '<settings-frame-pool-1-maxconcurrentstreams-setting>': ['<settings-frame-pool-1-maxconcurrentstreams-setting-id><settings-frame-pool-1-maxconcurrentstreams-setting-value>'],
+        '<settings-frame-pool-1-maxconcurrentstreams-setting-id>': ['3'],
+        '<settings-frame-pool-1-maxconcurrentstreams-setting-value>': ['123456', '(0, opts(prob=0.01))'],
+
+        '<settings-frame-pool-1-initialwindowsize-setting>': ['<settings-frame-pool-1-initialwindowsize-setting-id><settings-frame-pool-1-initialwindowsize-setting-value>'],
+        '<settings-frame-pool-1-initialwindowsize-setting-id>': ['4'],
+        '<settings-frame-pool-1-initialwindowsize-setting-value>': ['123456', '(0, opts(prob=0.01))'],
+
+        '<settings-frame-pool-1-maxframesize-setting>': ['<settings-frame-pool-1-maxframesize-setting-id><settings-frame-pool-1-maxframesize-setting-value>'],
+        '<settings-frame-pool-1-maxframesize-setting-id>': ['5'],
+        '<settings-frame-pool-1-maxframesize-setting-value>': ['123456', '(0, opts(prob=0.01))'],
+
+        '<settings-frame-pool-1-maxheaderlistsize-setting>': ['<settings-frame-pool-1-maxheaderlistsize-setting-id><settings-frame-pool-1-maxheaderlistsize-setting-value>'],
+        '<settings-frame-pool-1-maxheaderlistsize-setting-id>': ['6'],
+        '<settings-frame-pool-1-maxheaderlistsize-setting-value>': ['123456', '(0, opts(prob=0.01))'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<push-promise-frame-pool-1>': ['<push-promise-frame-pool-1-promised-id><push-promise-frame-pool-1-header-block><push-promise-frame-pool-1-flags><push-promise-frame-pool-1-stream-id>'],
+
+        '<push-promise-frame-pool-1-promised-id>': ['(2, opts(prob=0.01))', '3'],
+        '<push-promise-frame-pool-1-header-block>': ['(<push-promise-frame-pool-1-body-length-header>, opts(prob=0.75))', '<push-promise-frame-pool-1-method-header><push-promise-frame-pool-1-body-length-header>'],
+        '<push-promise-frame-pool-1-flags>': ['NONE', 'EH'],
+        '<push-promise-frame-pool-1-stream-id>': ['1'],
+
+        '<push-promise-frame-pool-1-body-length-header>': ['(<push-promise-frame-pool-1-content-len-header>, opts(prob=0.75))', '<push-promise-frame-pool-1-transfer-enc-header>'],
+
+		'<push-promise-frame-pool-1-content-len-header>': ['<push-promise-frame-pool-1-content-len-header-name><push-promise-frame-pool-1-content-len-header-value>'],
+		'<push-promise-frame-pool-1-content-len-header-name>': ['content-length'],
+		'<push-promise-frame-pool-1-content-len-header-value>': ['5', '10', '15', '20'],
+
+		'<push-promise-frame-pool-1-transfer-enc-header>': ['<push-promise-frame-pool-1-transfer-enc-header-name><push-promise-frame-pool-1-transfer-enc-header-value>'],
+		'<push-promise-frame-pool-1-transfer-enc-header-name>': ['transfer-encoding'],
+		'<push-promise-frame-pool-1-transfer-enc-header-value>': ['(chunked, opts(prob=0.75))', 'identity'],
+
+        '<push-promise-frame-pool-1-method-header>': ['<push-promise-frame-pool-1-method-header-name><push-promise-frame-pool-1-method-header-value>'],
+        '<push-promise-frame-pool-1-method-header-name>': [':method'],
+        '<push-promise-frame-pool-1-method-header-value>': ['(POST, opts(prob=0.75))', '(GET, opts(prob=0.13))', 'HEAD', 'OPTIONS', 'TRACE', 'PUT', 'DELETE', 'CONNECT'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<ping-frame-pool-1>': ['<ping-frame-pool-1-opaque><ping-frame-pool-1-flags><ping-frame-pool-1-stream-id>'],
+
+        '<ping-frame-pool-1-opaque>': ['5\r\nBBBBB\r\n0\r\n\r\n', '5\r\nBBBBB\r\n0\r\n\r\nBBBBB', '5\r\nBBBBB\r\n', '0\r\n\r\n'],
+        '<ping-frame-pool-1-flags>': ['NONE', 'A',],
+        '<ping-frame-pool-1-stream-id>': ['0', '(1, opts(prob=0.01))'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<priority-frame-pool-1>': ['<priority-frame-pool-1-exclusive><priority-frame-pool-1-dependency><priority-frame-pool-1-weight><priority-frame-pool-1-flags><priority-frame-pool-1-stream-id>'],
+
+		'<priority-frame-pool-1-exclusive>': ['0', '1'],
+		'<priority-frame-pool-1-dependency>': ['(0, opts(prob=0.01))', '(-1, opts(prob=0.01))', '2', '3'],
+		'<priority-frame-pool-1-weight>': ['(0, opts(prob=0.01))', '100'],
+        '<priority-frame-pool-1-flags>': ['NONE',],
+        '<priority-frame-pool-1-stream-id>': ['1'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<reset-frame-pool-1>': ['<reset-frame-pool-1-error><reset-frame-pool-1-flags><reset-frame-pool-1-stream-id>'],
+
+        '<reset-frame-pool-1-error>': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+        '<reset-frame-pool-1-flags>': ['NONE',],
+        '<reset-frame-pool-1-stream-id>': ['1'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<goaway-frame-pool-1>': ['<goaway-frame-pool-1-last-id><goaway-frame-pool-1-error><goaway-frame-pool-1-additional-data><goaway-frame-pool-1-flags><goaway-frame-pool-1-stream-id>'],
+
+		'<goaway-frame-pool-1-last-id>': ['1','(2, opts(prob=0.01))','(3, opts(prob=0.01))','(0, opts(prob=0.01))','(-1, opts(prob=0.01))'],
+        '<goaway-frame-pool-1-error>': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+        '<goaway-frame-pool-1-additional-data>': ['5\r\nBBBBB\r\n0\r\n\r\n', '5\r\nBBBBB\r\n0\r\n\r\nBBBBB', '5\r\nBBBBB\r\n', '0\r\n\r\n'],
+        '<goaway-frame-pool-1-flags>': ['NONE',],
+        '<goaway-frame-pool-1-stream-id>': ['0', '(1, opts(prob=0.01))'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+        '<window-update-frame-pool-1>': ['<window-update-frame-pool-1-size><window-update-frame-pool-1-flags><window-update-frame-pool-1-stream-id>'],
+
+        '<window-update-frame-pool-1-size>': ['123456', '(0, opts(prob=0.01))'],
+        '<window-update-frame-pool-1-flags>': ['NONE',],
+        '<window-update-frame-pool-1-stream-id>': ['1'],
+
+#-----------------------------------------------------------------------------------------------------------------------------------------
+
+}
+
+
+# Required. Minimum number of tree mutations to be done
+config.min_num_tree_mutations = 1
+
+# Required. Maximum number of tree mutations to be done 
+config.max_num_tree_mutations = 2
+
+# Required. Minimum number of string mutations to be done
+config.min_num_string_mutations = 1
+
+# Required. Maximum number of string mutations to be done 
+config.max_num_string_mutations = 2
+
+# Required. The mutation type for each symbol to be mutated. Two mutation types are supported: tree (0) and string (1).  
+#config.symbol_mutation_types = {'<headers-frame-1-cl-header-1-name>': 1, '<headers-frame-1-cl-header-1-value>': 1, '<headers-frame-1-te-header-1-name>': 1, '<headers-frame-1-te-header-1-value>': 1,} 
+config.symbol_mutation_types = {'<sequence>': 0, '<headers-frame-pool-1-content-len-header-name>': 1, '<headers-frame-pool-1-content-len-header-value>': 1, '<headers-frame-pool-1-transfer-enc-header-name>': 1, '<headers-frame-pool-1-transfer-enc-header-value>': 1, '<continuation-frame-pool-1-content-len-header-name>': 1, '<continuation-frame-pool-1-content-len-header-value>': 1, '<continuation-frame-pool-1-transfer-enc-header-name>': 1, '<continuation-frame-pool-1-transfer-enc-header-value>': 1, '<padded-headers-frame-pool-1-content-len-header-name>': 1, '<padded-headers-frame-pool-1-content-len-header-value>': 1, '<padded-headers-frame-pool-1-transfer-enc-header-name>': 1, '<padded-headers-frame-pool-1-transfer-enc-header-value>': 1, '<priority-headers-frame-pool-1-content-len-header-name>': 1, '<priority-headers-frame-pool-1-content-len-header-value>': 1, '<priority-headers-frame-pool-1-transfer-enc-header-name>': 1, '<priority-headers-frame-pool-1-transfer-enc-header-value>': 1, '<push-promise-frame-pool-1-content-len-header-name>': 1, '<push-promise-frame-pool-1-content-len-header-value>': 1, '<push-promise-frame-pool-1-transfer-enc-header-name>': 1, '<push-promise-frame-pool-1-transfer-enc-header-value>': 1, '<headers-frame-pool-1-method-header-value>': 1, '<continuation-frame-pool-1-method-header-value>': 1, '<padded-headers-frame-pool-1-method-header-value>': 1, '<priority-headers-frame-pool-1-method-header-value>': 1, '<push-promise-frame-pool-1-method-header-value>': 1} 
+
+# Required if string mutations are used. The character pool to choose from for insert_random_char and replace_random_char operations.
+config.char_pool = [chr(i) for i in list(range(48))+list(range(58,65))+list(range(91,97))+list(range(123,128))]
+
+# Required if tree mutations are used. The symbol pool to choose from for insert_random_subtree and replace_random_subtree operations.
+config.symbol_pool = ['(<headers-frame-pool-1>, opts(prob=0.45))', '(<continuation-frame-pool-1>, opts(prob=0.45))', '<data-frame-pool-1>','<priority-headers-frame-pool-1>', '<padded-headers-frame-pool-1>', '<padded-data-frame-pool-1>', '<push-promise-frame-pool-1>', '<settings-frame-pool-1>', '<ping-frame-pool-1>', '<goaway-frame-pool-1>', '<reset-frame-pool-1>', '<priority-frame-pool-1>', '<window-update-frame-pool-1>'] 
+
+# Required if string mutations are used.
+config.string_mutators = ['insert_random_character_at_edges']
+
+# Required if tree mutations are used.
+config.tree_mutators = ['(insert_random_subtree, opts(prob=0.9))', 'remove_random_subtree']
