@@ -30,3 +30,5 @@ As shown below, three pieces of information is retained for each seed: 1) the ge
 
 ![](seed-1-input.png)
 
+## License
+Frameshifter is [licensed](LICENSE) under MIT license.
