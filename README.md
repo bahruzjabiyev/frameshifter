@@ -30,5 +30,10 @@ As shown below, three pieces of information is retained for each seed: 1) the ge
 
 ![](seed-1-input.png)
 
+## Testing
+To run the tests, take the steps 1-4 given in the `Getting Started` section (see above). Then run the command below:
+
+`cd /src/tests; python3 test_main.py`
+
 ## License
 Frameshifter is [licensed](LICENSE) under MIT license.
