@@ -35,5 +35,14 @@ To run the tests, take the steps 1-4 given in the `Getting Started` section (see
 
 `cd /src/tests; python3 test_main.py`
 
+## Limitations
+The naming of symbols in the grammar needs to follow some rules which are listed below. To be safe from the naming issues, it is recommended to follow the examples of [here](conf/experiment_conf) which is extensive enough.
+
+1. Symbols representing the frames should have a name starting with `<frame-type>-frame` (e.g., headers-frame).
+
+2. The names of symbols which represent individual frame fields should end with specific words (e.g., `flags`, `stream_id`).
+
+3. The names of symbols which represent header names and values should end with `header-name` and `header-value` respectively. 
+
 ## License
 Frameshifter is [licensed](LICENSE) under MIT license.
